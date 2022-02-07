@@ -31,6 +31,14 @@ function generarPalabraAleatoria(){
 var botonIniciar = document.querySelector("#iniciar-juego");
 botonIniciar.addEventListener("click",function(){    
     muñecoAhorcado = ["cabeza","cuerpo","brazoDerecho","brazoIzquierdo","piernaDerecha","piernaIzquierda"]
+    
+    if (localStorage.getItem("diccionario") == null){
+        localStorage.setItem("diccionario",diccionario)
+    }
+    else{
+        diccionario = localStorage.getItem("diccionario").split(",")        
+    }
+
     palabraArray = Array.from((diccionario[Math.floor(Math.random() * (diccionario.length))]).toUpperCase());
     palabraMostrar = Array.from("_".repeat(palabraArray.length));
     letrasEquivocadas = [];
@@ -39,8 +47,7 @@ botonIniciar.addEventListener("click",function(){
     escribirPalabraSecreta(palabraMostrar.join(" "));
     escribirLetra(letrasEquivocadas.join(" "));
     juegoIniciado = true;
-    habilitarDeshabilitarInput(true)
-    console.log(diccionario)
+    habilitarDeshabilitarInput(true)    
 });
 
 
@@ -48,11 +55,12 @@ var botonAgregar = document.querySelector("#nueva-palabra");
 botonAgregar.addEventListener("click",function(){
     var inputPalabra = document.querySelector('#input-nueva-palabra');
     var palabra = inputPalabra.value;
-    var patt = /^[a-z\s]+$/g;
+    var patt = /^[a-z\s]+$/g;    
 
     if (patt.test(palabra)){
         diccionario.push(palabra);
         inputPalabra.value = "";
+        localStorage.setItem("diccionario",diccionario)
     }
 
 
